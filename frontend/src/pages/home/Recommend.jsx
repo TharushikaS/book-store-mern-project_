@@ -63,4 +63,4 @@ const Recommened = () => {
   )
 }
 
-export default Recommened
+export default Recommened;
