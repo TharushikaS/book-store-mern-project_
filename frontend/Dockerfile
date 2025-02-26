@@ -1,26 +1,30 @@
-# Step 1: Use official Node.js image as base image
-FROM node:22.13.1
+FROM node:22-alpine as build
 
-# Step 2: Set working directory inside the container
 WORKDIR /app
 
-# Step 3: Copy package.json and package-lock.json to leverage Docker caching for dependencies
-COPY frontend/package.json frontend/package-lock.json ./
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
-# Step 4: Install frontend dependencies
+# Install dependencies
 RUN npm install
 
-# Step 5: Copy the rest of the frontend code into the container
-COPY frontend /app
+# Copy the rest of the frontend code
+COPY . .
 
-# Step 6: Build the frontend for production
+# Build the frontend application
 RUN npm run build
 
-# Step 7: Install a simple HTTP server to serve the static files
-RUN npm install -g serve
+# Production stage
+FROM nginx:alpine
 
-# Step 8: Expose the port the frontend will run on (typically port 5000 for Vite)
-EXPOSE 5000
+# Copy built assets from the build stage - using dist for Vite
+COPY --from=build /app/dist /usr/share/nginx/html
 
-# Step 9: Serve the built files using the 'serve' command
-CMD ["serve", "-s", "dist", "-l", "5000"]
+# Copy nginx config if you have a custom one
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 80
+EXPOSE 80
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]
