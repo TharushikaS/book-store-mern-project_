@@ -5,18 +5,18 @@ import { getAnalytics } from "firebase/analytics";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDE-AEchhzslGL4S4CIl-fm7rBHGz5zIPc",
-  authDomain: "book-store-mern-app-17260.firebaseapp.com",
-  projectId: "book-store-mern-app-17260",
-  storageBucket: "book-store-mern-app-17260.firebasestorage.app",
-  messagingSenderId: "194438686900",
-  appId: "1:194438686900:web:ba7f6b7a7f944f2a3f4fe1",
-  measurementId: "G-9WPKCQ3L7R"
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_Auth_Domain,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDERID,
+  appId: import.meta.env.VITE_APPID
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 export const auth = getAuth(app); // Export the auth instance
+
 
 export default app; // Optional: Export the Firebase app instance
