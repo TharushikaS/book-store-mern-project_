@@ -3,28 +3,39 @@ name: Deploy Frontend
 on:
   push:
     branches:
-      - main  # Change to your main branch name if needed
+      - main  # Triggers the action when there's a push to the main branch
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout Code
+      # Step 1: Checkout the code from the GitHub repository
+      - name: Checkout Repository
         uses: actions/checkout@v2
 
+      # Step 2: Set up Node.js (specify the Node.js version here)
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '14'  # You can change the version to the one you're using
 
+      # Step 3: Install dependencies inside the frontend folder
       - name: Install Dependencies
         run: npm install
+        working-directory: ./frontend  # Navigate to the frontend directory
 
+      # Step 4: Run the build script inside the frontend folder
       - name: Run Build
         run: npm run build
+        working-directory: ./frontend  # Run build command inside frontend folder
 
+      # Step 5: Build Docker Image from the frontend folder
       - name: Build Docker Image
-        run: docker build -t username/my-frontend:latest .
+        run: docker build -t username/my-frontend:latest ./frontend  # Specify frontend folder
+        working-directory: ./frontend  # Ensure we are in the frontend folder
 
+      # Step 6: Push the Docker Image to Docker Hub
       - name: Push Docker Image
         run: docker push username/my-frontend:latest
+        working-directory: ./frontend  # Ensure we are in the frontend folder
