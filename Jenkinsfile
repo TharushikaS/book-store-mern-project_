@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/your-repo.git'
+                git branch: 'main', url: 'https://github.com/TharushikaS/book-store-mern-project_.git'
             }
         }
 
