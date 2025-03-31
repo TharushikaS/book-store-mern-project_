@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+    
+    environment {
+        DOCKER_IMAGE = 'frontend:latest'
+    }
+    
+    stages {
+        stage('Clone') {
+            steps {
+                git 'https://github.com/your-repo/book-store-mern-project.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    sh 'docker build -t $DOCKER_IMAGE .'
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                // Here you can add testing commands if any (e.g., unit tests, linting)
+                echo 'Running tests...'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                script {
+                    // Deploy your container to the Docker environment
+                    sh 'docker run -d -p 8081:80 $DOCKER_IMAGE'
+                }
+            }
+        }
+    }
+}
