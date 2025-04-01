@@ -15,6 +15,7 @@ pipeline {
                     branches: [[name: 'main']],
                     userRemoteConfigs: [[url: 'https://github.com/TharushikaS/book-store-mern-project_.git']]
                 ])
+                sh 'ls -la' // List directory contents to verify checkout
             }
         }
 
