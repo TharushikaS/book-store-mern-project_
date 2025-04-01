@@ -1,20 +1,18 @@
-# Step 1: Use official Node.js image as base image
-FROM node:22.13.1
+FROM node:22-alpine
 
-# Step 2: Set working directory inside the container
 WORKDIR /app
 
-# Step 3: Copy package.json and package-lock.json first (to leverage Docker cache for dependencies)
-COPY backend/package.json backend/package-lock.json ./
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
-# Step 4: Install backend dependencies
-RUN npm install --production
+# Install dependencies
+RUN npm install
 
-# Step 5: Copy the rest of the backend code into the container
-COPY backend /app
+# Copy the rest of the backend code
+COPY . .
 
-# Step 6: Expose the port your app runs on (example: port 3000)
-EXPOSE 3000
+# Expose the port your backend runs on
+EXPOSE 5000
 
-# Step 7: Start the backend server (replace with your actual start command)
-CMD ["npm", "start"]
+# Command to run the application with ESM support
+CMD ["node", "--experimental-specifier-resolution=node", "index.js"]
