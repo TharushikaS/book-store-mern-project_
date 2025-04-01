@@ -1,3 +1,4 @@
+# Build stage
 FROM node:22-alpine as build
 
 WORKDIR /app
@@ -12,7 +13,7 @@ RUN npm install
 COPY . .
 
 # Build the frontend application
-RUN npm run build
+RUN npm run build --verbose
 
 # Production stage
 FROM nginx:alpine
