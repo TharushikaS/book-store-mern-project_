@@ -4,13 +4,13 @@ pipeline {
     environment {
         DOCKER_IMAGE = "frontend:latest"
         CONTAINER_NAME = "frontend-container"
-        DOCKER_REGISTRY = "docker.io/tharushikas/frontend"
+        DOCKER_REGISTRY = "tharushikas/frontend"
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/TharushikaS/book-store-mern-project_.git'
+                git branch: 'main', url: 'git@github.com:TharushikaS/book-store-mern-project_.git'
             }
         }
 
