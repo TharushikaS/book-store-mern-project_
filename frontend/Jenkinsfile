@@ -1,35 +1,44 @@
 pipeline {
     agent any
-    
+
     environment {
-        DOCKER_IMAGE = 'frontend:latest'
+        DOCKER_IMAGE = "frontend:latest"
+        CONTAINER_NAME = "frontend-container"
+        DOCKER_REGISTRY = "TharushikaS/frontend"
     }
-    
+
     stages {
-        stage('Clone') {
+        stage('Checkout Code') {
             steps {
-                git 'https://github.com/your-repo/book-store-mern-project.git'
+                git branch: 'main', url: 'https://github.com/TharushikaS/book-store-mern-project_.git'
             }
         }
-        stage('Build') {
+
+        stage('Install Dependencies') {
             steps {
-                script {
-                    sh 'docker build -t $DOCKER_IMAGE .'
-                }
+                sh 'npm install'
             }
         }
-        stage('Test') {
+
+        stage('Build Frontend') {
             steps {
-                // Here you can add testing commands if any (e.g., unit tests, linting)
-                echo 'Running tests...'
+                sh 'npm run build'
             }
         }
-        stage('Deploy') {
+
+        stage('Docker Build & Push') {
             steps {
-                script {
-                    // Deploy your container to the Docker environment
-                    sh 'docker run -d -p 8081:80 $DOCKER_IMAGE'
-                }
+                sh 'docker build -t $DOCKER_IMAGE .'
+                sh 'docker tag $DOCKER_IMAGE $DOCKER_REGISTRY'
+                sh 'docker push $DOCKER_REGISTRY'
+            }
+        }
+
+        stage('Deploy to Server') {
+            steps {
+                sh 'docker stop $CONTAINER_NAME || true'
+                sh 'docker rm $CONTAINER_NAME || true'
+                sh 'docker run -d -p 8081:80 --name $CONTAINER_NAME $DOCKER_REGISTRY'
             }
         }
     }
