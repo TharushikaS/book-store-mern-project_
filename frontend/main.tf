@@ -17,7 +17,7 @@ resource "aws_instance" "frontend_server" {
   vpc_security_group_ids = [aws_security_group.frontend_sg.id]
 
   # Key pair for SSH access (create this in AWS console first)
-  key_name = "bookstore-key"  # Replace with your key pair name
+  key_name = "ec2-ssh-key"  # Replace with your key pair name
 }
 
 # Create security group
