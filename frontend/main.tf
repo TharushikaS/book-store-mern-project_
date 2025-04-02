@@ -5,7 +5,7 @@ provider "aws" {
 
 # Create EC2 instance
 resource "aws_instance" "frontend_server" {
-  ami           = "ami-0c55b159cbfafe1f0"  # Amazon Linux 2 AMI (adjust for your region)
+  ami           = "ami-00128a17819d3b9b0"  # Amazon Linux 2 AMI (adjust for your region)
   instance_type = "t2.micro"
   
   tags = {
